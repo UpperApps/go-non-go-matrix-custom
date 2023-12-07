@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "noImplicitAny": true,
+    "outDir": "./build",
+    "noEmitOnError": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowArbitraryExtensions": true,
+    "verbatimModuleSyntax": true,
+  },
+  "include": [
+    "./src/**/*",
+    "./server.ts"
+  ]
+}
