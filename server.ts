@@ -25,7 +25,7 @@ const server = http.createServer(app);
  */
 
 server.listen(port, () => {
-    console.log(`Server listening on http://localhost:${port}`)
+    console.log(`Server listening on http://localhost:${port}`);
 });
 server.on('error', onError);
 server.on('listening', onListening);
@@ -34,7 +34,7 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort({val}: { val: any }) {
+function normalizePort({val}: { val: string }) {
     const port = parseInt(val, 10);
 
     if (isNaN(port)) {
@@ -54,17 +54,18 @@ function normalizePort({val}: { val: any }) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError({error}: { error: any }) {
-    if (error.syscall !== 'listen') {
+function onError({error}: { error: NodeJS.ErrnoException }) {
+    const { syscall , code} = error;
+    if (syscall !== 'listen') {
         throw error;
     }
 
-    var bind = typeof port === 'string'
+    const bind = typeof port === 'string'
         ? 'Pipe ' + port
         : 'Port ' + port;
 
     // handle specific listen errors with friendly messages
-    switch (error.code) {
+    switch (code) {
         case 'EACCES':
             console.error(bind + ' requires elevated privileges');
             process.exit(1);
