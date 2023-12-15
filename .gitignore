@@ -144,3 +144,6 @@ dist
 build
 *.js
 .DS_Store
+
+# Localstack
+localstack/volume
