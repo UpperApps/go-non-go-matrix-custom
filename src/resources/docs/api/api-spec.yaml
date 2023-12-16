@@ -1,0 +1,102 @@
+openapi: 3.1.0
+info:
+  title: 'Go-Non-Go API Documentation'
+  description: 'API Documentation for the Go-Non-Go project'
+  version: '1.0.0'
+  contact:
+    name: 'Go-Non-Go Team'
+    email: 'upperaps@gmail.com.br'
+    url: 'https://upperapps.ca'
+  license:
+    identifier: 'MIT'
+    name: 'MIT'
+    url: 'https://opensource.org/licenses/MIT'
+
+servers:
+  - url: http://localhost:3000
+    description: Local server for local development.
+
+paths:
+  /users:
+    get:
+      summary: Get all users
+      description: Get all users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new user
+      description: Create a new user
+      requestBody:
+        description: User object to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        id:
+          type: string
+          description: User id
+        name:
+          type: string
+          description: User name
+        email:
+          type: string
+          description: User email
+        password:
+          type: string
+          description: User password
+        createdAt:
+          type: string
+          description: User creation date
+        updatedAt:
+          type: string
+          description: User update date
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Error message

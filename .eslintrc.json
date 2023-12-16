@@ -24,6 +24,15 @@
     "no-console": 1,
     "prettier/prettier": 2,
     "no-process-env": "off",
-    "quotes": [2, "single", "avoid-escape"]
+    "quotes": [
+      2,
+      "single",
+      "avoid-escape"
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {}
+    }
   }
 }
