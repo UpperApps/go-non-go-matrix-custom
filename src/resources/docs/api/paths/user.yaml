@@ -1,6 +1,8 @@
 get:
   summary: Info for a specific user
-  operationId: userById
+  description: Info for a specific user
+  tags:
+    - Users
   parameters:
     - $ref: '../parameters/path/user-id.yaml'
   responses:

@@ -19,6 +19,8 @@ paths:
     get:
       summary: Get all users
       description: Get all users
+      tags:
+        - Users
       parameters:
         - $ref: '#/components/parameters/LimitQueryParameter'
         - $ref: '#/components/parameters/OffsetQueryParameter'
@@ -30,6 +32,8 @@ paths:
     post:
       summary: Create a new user
       description: Create a new user
+      tags:
+        - Users
       requestBody:
         description: User object to be created
         required: true
@@ -47,7 +51,9 @@ paths:
   '/users/{userId}':
     get:
       summary: Info for a specific user
-      operationId: userById
+      description: Info for a specific user
+      tags:
+        - Users
       parameters:
         - $ref: '#/components/parameters/UserIdPathParameter'
       responses:
@@ -79,7 +85,7 @@ components:
       name: offset
       in: query
       required: true
-      description: Page to be returned in a pagination.
+      description: The number of items to skip before starting to collect the result set
       schema:
         type: number
   schemas:

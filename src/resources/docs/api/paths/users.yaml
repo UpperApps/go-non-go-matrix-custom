@@ -1,6 +1,8 @@
 get:
   summary: Get all users
   description: Get all users
+  tags:
+    - Users
   parameters:
     - $ref: '../parameters/query/limit.yaml'
     - $ref: '../parameters/query/offset.yaml'
@@ -12,6 +14,8 @@ get:
 post:
   summary: Create a new user
   description: Create a new user
+  tags:
+    - Users
   requestBody:
     description: User object to be created
     required: true
