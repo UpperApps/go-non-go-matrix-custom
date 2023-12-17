@@ -1,0 +1,13 @@
+# Resources responses
+UserOk:
+  $ref: './user-ok.yaml'
+
+#  Generic responses
+NotFound:
+  $ref: './not-found.yaml'
+BadRequest:
+  $ref: './bad-request.yaml'
+InternalServerError:
+  $ref: './internal-server-error.yaml'
+UserCreated:
+  $ref: './user-created.yaml'

@@ -1,0 +1,28 @@
+get:
+  summary: Get all users
+  description: Get all users
+  parameters:
+    - $ref: '../parameters/query/limit.yaml'
+    - $ref: '../parameters/query/offset.yaml'
+  responses:
+    '200':
+      $ref: '../responses/user-ok.yaml'
+    '500':
+      $ref: '../responses/internal-server-error.yaml'
+post:
+  summary: Create a new user
+  description: Create a new user
+  requestBody:
+    description: User object to be created
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/user.yaml'
+  responses:
+    '201':
+      $ref: '../responses/user-created.yaml'
+    '400':
+      $ref: '../responses/bad-request.yaml'
+    '500':
+      $ref: '../responses/internal-server-error.yaml'

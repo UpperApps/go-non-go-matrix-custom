@@ -1,0 +1,6 @@
+name: limit
+in: query
+required: true
+description: Max limit of items to return.
+schema:
+  type: number

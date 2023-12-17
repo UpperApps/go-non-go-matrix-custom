@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "start": "npm run build && tsc-watch --onSuccess \"node build/server.js\"",
-    "dev": "npm run prettier-format && npm run lint && npm run build && npm start",
+    "dev": "npm run prettier-format && npm run lint && npm run doc:generate && npm run build && npm start",
     "lint": "eslint . --ext .ts",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "build": "tsc"
+    "build": "tsc",
+    "doc:generate": "swagger-cli bundle src/resources/docs/api/index.yaml --outfile src/resources/docs/api/api-spec.yaml --type yaml"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

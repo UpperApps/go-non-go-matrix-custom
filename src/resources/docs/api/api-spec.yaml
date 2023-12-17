@@ -1,41 +1,32 @@
 openapi: 3.1.0
 info:
-  title: 'Go-Non-Go API Documentation'
-  description: 'API Documentation for the Go-Non-Go project'
-  version: '1.0.0'
+  title: Go-Non-Go API Documentation
+  description: API Documentation for the Go-Non-Go project
+  version: 1.0.0
   contact:
-    name: 'Go-Non-Go Team'
-    email: 'upperaps@gmail.com.br'
-    url: 'https://upperapps.ca'
+    name: Go-Non-Go Team
+    email: upperaps@gmail.com.br
+    url: 'https://github.com/UpperApps'
   license:
-    identifier: 'MIT'
-    name: 'MIT'
+    identifier: MIT
+    name: MIT
     url: 'https://opensource.org/licenses/MIT'
-
 servers:
-  - url: http://localhost:3000
-    description: Local server for local development.
-
+  - url: 'http://localhost:3000'
+    description: Server for local development.
 paths:
   /users:
     get:
       summary: Get all users
       description: Get all users
+      parameters:
+        - $ref: '#/components/parameters/LimitQueryParameter'
+        - $ref: '#/components/parameters/OffsetQueryParameter'
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+          $ref: '#/components/responses/UserOk'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InternalServerError'
     post:
       summary: Create a new user
       description: Create a new user
@@ -48,24 +39,49 @@ paths:
               $ref: '#/components/schemas/User'
       responses:
         '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
+          $ref: '#/components/responses/UserCreated'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/BadRequest'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/InternalServerError'
+  '/users/{userId}':
+    get:
+      summary: Info for a specific user
+      operationId: userById
+      parameters:
+        - $ref: '#/components/parameters/UserIdPathParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserOk'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
+  parameters:
+    UserIdPathParameter:
+      name: userId
+      in: path
+      required: true
+      description: The id of the user to retrieve.
+      schema:
+        type: string
+    LimitQueryParameter:
+      name: limit
+      in: query
+      required: true
+      description: Max limit of items to return.
+      schema:
+        type: number
+    OffsetQueryParameter:
+      name: offset
+      in: query
+      required: true
+      description: Page to be returned in a pagination.
+      schema:
+        type: number
   schemas:
     User:
       type: object
@@ -100,3 +116,34 @@ components:
         message:
           type: string
           description: Error message
+  responses:
+    UserOk:
+      description: Ok - Expected response to a valid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UserCreated:
+      description: User Created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'

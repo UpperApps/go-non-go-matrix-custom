@@ -1,0 +1,31 @@
+openapi: 3.1.0
+info:
+  title: Go-Non-Go API Documentation
+  description: API Documentation for the Go-Non-Go project
+  version: 1.0.0
+  contact:
+    name: Go-Non-Go Team
+    email: upperaps@gmail.com.br
+    url: https://github.com/UpperApps
+  license:
+    identifier: MIT
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000
+    description: Server for local development.
+
+paths:
+  /users:
+    $ref: "./paths/users.yaml"
+  /users/{userId}:
+    $ref: "./paths/user.yaml"
+
+components:
+  parameters:
+    $ref: "./parameters/index.yaml"
+  schemas:
+    $ref: "./schemas/index.yaml"
+  responses:
+    $ref: "./responses/index.yaml"

@@ -1,0 +1,14 @@
+get:
+  summary: Info for a specific user
+  operationId: userById
+  parameters:
+    - $ref: '../parameters/path/user-id.yaml'
+  responses:
+    '200':
+        $ref: '../responses/user-ok.yaml'
+    '404':
+        $ref: '../responses/not-found.yaml'
+    '400':
+        $ref: '../responses/bad-request.yaml'
+    '500':
+        $ref: '../responses/internal-server-error.yaml'

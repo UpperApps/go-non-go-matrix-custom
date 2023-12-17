@@ -1,0 +1,6 @@
+UserIdPathParameter:
+  $ref: '../parameters/path/user-id.yaml'
+LimitQueryParameter:
+  $ref: '../parameters/query/limit.yaml'
+OffsetQueryParameter:
+  $ref: '../parameters/query/offset.yaml'
