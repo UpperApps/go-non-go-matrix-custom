@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    "module": "nodenext",
+    "module": "NodeNext",
     "noImplicitAny": true,
     "outDir": "./build",
     "noEmitOnError": true,
     "forceConsistentCasingInFileNames": true,
     "allowArbitraryExtensions": true,
-    "verbatimModuleSyntax": true,
     "strictNullChecks": true
   },
   "include": [
     "./src/**/*",
-    "./server.ts"
+    "./server.ts",
+    "./jest.config.cts"
   ]
 }
