@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('../public'));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiSpec));
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(apiSpec));
 
 router(app);
 
