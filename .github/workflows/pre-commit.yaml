@@ -2,11 +2,11 @@ name: pre-commit
 
 on:
   push:
-    branches:
-      - '**'
-      - !main
+    branches-ignore:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
     pre-commit:
