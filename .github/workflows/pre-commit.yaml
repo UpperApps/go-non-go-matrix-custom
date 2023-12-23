@@ -2,7 +2,9 @@ name: pre-commit
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - '**'
+      - !main
   pull_request:
     branches: [ main ]
 
@@ -16,6 +18,8 @@ jobs:
           uses: actions/setup-node@v4
           with:
             node-version: '20.10.0'
+        - name: Install Dependencies
+          run: npm install
         - name: Run Prettier
           run: npm run prettier-format
         - name: Run ESLint
