@@ -28,5 +28,7 @@ jobs:
           run: npm run build
         - name: Run Tests
           run: npm run test
+#        - name: Run Swagger-cli installation
+#          run: npm install -g @apidevtools/swagger-cli
         - name: Run API Doc Generation
           run: npm run doc:generate
