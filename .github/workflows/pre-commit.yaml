@@ -2,8 +2,8 @@ name: pre-commit
 
 on:
   push:
-    branches-ignore:
-      - main
+    branches:
+      - * # All branches
   pull_request:
     branches:
       - main
@@ -14,21 +14,26 @@ jobs:
         steps:
         - name: Checkout code
           uses: actions/checkout@v4
+
         - name: Setup Node.js
           uses: actions/setup-node@v4
           with:
             node-version: '20.10.0'
+
         - name: Install Dependencies
-          run: npm install
+          run: npm ci
+
         - name: Run Prettier
           run: npm run prettier-format
+
         - name: Run ESLint
           run: npm run lint
+
         - name: Run Build
           run: npm run build
+
         - name: Run Tests
           run: npm run test
-#        - name: Run Swagger-cli installation
-#          run: npm install -g @apidevtools/swagger-cli
+
         - name: Run API Doc Generation
           run: npm run doc:generate
