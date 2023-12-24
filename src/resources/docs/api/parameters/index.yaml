@@ -4,3 +4,5 @@ LimitQueryParameter:
   $ref: '../parameters/query/limit.yaml'
 OffsetQueryParameter:
   $ref: '../parameters/query/offset.yaml'
+UserIdQueryParameter:
+  $ref: '../parameters/query/user-id.yaml'

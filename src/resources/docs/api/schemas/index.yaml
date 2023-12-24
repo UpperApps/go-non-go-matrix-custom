@@ -1,4 +1,4 @@
-User:
+user:
   $ref: './user.yaml'
-Error:
+error:
   $ref: './error.yaml'

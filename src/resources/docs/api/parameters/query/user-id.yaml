@@ -1,0 +1,6 @@
+name: userId
+in: query
+required: true
+description: The id of the user to retrieve.
+schema:
+  type: string

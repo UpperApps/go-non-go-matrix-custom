@@ -6,13 +6,13 @@ info:
   contact:
     name: Go-Non-Go Team
     email: upperaps@gmail.com.br
-    url: 'https://github.com/UpperApps'
+    url: https://github.com/UpperApps
   license:
     identifier: MIT
     name: MIT
-    url: 'https://opensource.org/licenses/MIT'
+    url: https://opensource.org/licenses/MIT
 servers:
-  - url: 'http://localhost:3000'
+  - url: http://localhost:3000
     description: Server for local development.
 paths:
   /users:
@@ -22,13 +22,60 @@ paths:
       tags:
         - Users
       parameters:
-        - $ref: '#/components/parameters/LimitQueryParameter'
-        - $ref: '#/components/parameters/OffsetQueryParameter'
+        - name: limit
+          in: query
+          required: true
+          description: Max limit of items to return.
+          schema: &ref_7
+            type: number
+        - name: offset
+          in: query
+          required: true
+          description: The number of items to skip before starting to collect the result set
+          schema: &ref_8
+            type: number
       responses:
         '200':
-          $ref: '#/components/responses/UserOk'
+          description: Ok - Expected response to a valid request.
+          content: &ref_5
+            application/json:
+              schema:
+                type: object
+                required: &ref_0
+                  - name
+                  - email
+                  - password
+                properties: &ref_1
+                  id:
+                    type: string
+                    description: User id
+                  name:
+                    type: string
+                    description: User name
+                  email:
+                    type: string
+                    description: User email
+                  password:
+                    type: string
+                    description: User password
+                  createdAt:
+                    type: string
+                    description: User creation date
+                  updatedAt:
+                    type: string
+                    description: User update date
         '500':
-          $ref: '#/components/responses/InternalServerError'
+          description: Internal Server Error
+          content: &ref_4
+            application/json:
+              schema:
+                type: object
+                required: &ref_2
+                  - message
+                properties: &ref_3
+                  message:
+                    type: string
+                    description: Error message
     post:
       summary: Create a new user
       description: Create a new user
@@ -40,116 +87,148 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
+              required: *ref_0
+              properties: *ref_1
       responses:
         '201':
-          $ref: '#/components/responses/UserCreated'
+          description: User Created
+          content: &ref_11
+            application/json:
+              schema:
+                type: object
+                required: *ref_0
+                properties: *ref_1
         '400':
-          $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+          content: &ref_6
+            application/json:
+              schema:
+                type: object
+                required: *ref_2
+                properties: *ref_3
         '500':
-          $ref: '#/components/responses/InternalServerError'
-  '/users/{userId}':
+          description: Internal Server Error
+          content: *ref_4
+  /users/{userId}:
     get:
       summary: Info for a specific user
       description: Info for a specific user
       tags:
         - Users
       parameters:
-        - $ref: '#/components/parameters/UserIdPathParameter'
+        - name: userId
+          in: path
+          required: true
+          description: The id of the user to retrieve.
+          schema: &ref_9
+            type: string
       responses:
         '200':
-          $ref: '#/components/responses/UserOk'
+          description: Ok - Expected response to a valid request.
+          content: *ref_5
         '400':
-          $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+          content: *ref_6
         '404':
-          $ref: '#/components/responses/NotFound'
+          description: Not Found
+          content: &ref_12
+            application/json:
+              schema:
+                type: object
+                required: *ref_2
+                properties: *ref_3
         '500':
-          $ref: '#/components/responses/InternalServerError'
+          description: Internal Server Error
+          content: *ref_4
 components:
   parameters:
+    limit:
+      name: limit
+      in: query
+      required: true
+      description: Max limit of items to return.
+      schema: *ref_7
+    offset:
+      name: offset
+      in: query
+      required: true
+      description: The number of items to skip before starting to collect the result set
+      schema: *ref_8
+    user-id:
+      name: userId
+      in: path
+      required: true
+      description: The id of the user to retrieve.
+      schema: *ref_9
+    user-id-2:
+      name: userId
+      in: query
+      required: true
+      description: The id of the user to retrieve.
+      schema: &ref_10
+        type: string
     UserIdPathParameter:
       name: userId
       in: path
       required: true
       description: The id of the user to retrieve.
-      schema:
-        type: string
+      schema: *ref_9
     LimitQueryParameter:
       name: limit
       in: query
       required: true
       description: Max limit of items to return.
-      schema:
-        type: number
+      schema: *ref_7
     OffsetQueryParameter:
       name: offset
       in: query
       required: true
       description: The number of items to skip before starting to collect the result set
-      schema:
-        type: number
+      schema: *ref_8
+    UserIdQueryParameter:
+      name: userId
+      in: query
+      required: true
+      description: The id of the user to retrieve.
+      schema: *ref_10
   schemas:
-    User:
+    user:
       type: object
-      required:
-        - name
-        - email
-        - password
-      properties:
-        id:
-          type: string
-          description: User id
-        name:
-          type: string
-          description: User name
-        email:
-          type: string
-          description: User email
-        password:
-          type: string
-          description: User password
-        createdAt:
-          type: string
-          description: User creation date
-        updatedAt:
-          type: string
-          description: User update date
-    Error:
+      required: *ref_0
+      properties: *ref_1
+    error:
       type: object
-      required:
-        - message
-      properties:
-        message:
-          type: string
-          description: Error message
+      required: *ref_2
+      properties: *ref_3
   responses:
+    user-ok:
+      description: Ok - Expected response to a valid request.
+      content: *ref_5
+    internal-server-error:
+      description: Internal Server Error
+      content: *ref_4
+    user-created:
+      description: User Created
+      content: *ref_11
+    bad-request:
+      description: Bad Request
+      content: *ref_6
+    not-found:
+      description: Not Found
+      content: *ref_12
     UserOk:
       description: Ok - Expected response to a valid request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/User'
+      content: *ref_5
     NotFound:
       description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+      content: *ref_12
     BadRequest:
       description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+      content: *ref_6
     InternalServerError:
       description: Internal Server Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+      content: *ref_4
     UserCreated:
       description: User Created
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/User'
+      content: *ref_11

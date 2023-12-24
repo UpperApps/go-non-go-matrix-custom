@@ -17,12 +17,12 @@
   "type": "module",
   "scripts": {
     "start": "tsc-watch --onSuccess \"node build/server.js\"",
-    "dev": "npm run prettier-format && npm run lint && npm run doc:generate && npm run build && npm run test&& npm start",
+    "dev": "npm run prettier-format && npm run lint && npm run build && npm run test && npm run doc:generate &&  npm start",
     "lint": "eslint . --ext .ts",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "build": "tsc",
     "test": "jest",
-    "doc:generate": "swagger-cli bundle src/resources/docs/api/index.yaml --outfile src/resources/docs/api/api-spec.yaml --type yaml",
+    "doc:generate": "npx @redocly/cli bundle src/resources/docs/api/index.yaml --output src/resources/docs/api/api-spec.yaml --ext yaml --dereferenced",
     "lint-staged": "lint-staged --config lint-staged.cjs",
     "husky-install": "husky install"
   },
@@ -41,7 +41,6 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "@apidevtools/swagger-cli": "^4.0.4",
     "@babel/core": "^7.23.6",
     "@babel/preset-env": "^7.23.6",
     "@babel/preset-typescript": "^7.23.3",
