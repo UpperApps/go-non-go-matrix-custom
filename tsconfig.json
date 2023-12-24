@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "noImplicitAny": true,
     "outDir": "./build",
     "noEmitOnError": true,
@@ -9,8 +9,5 @@
     "allowArbitraryExtensions": true,
     "strictNullChecks": true
   },
-  "include": [
-    "./src/**/*",
-    "./server.ts"
-  ]
+  "include": ["./src/**/*", "./server.ts", "./babel.config.cts", "./jest.config.cts", "./lint-staged.cjs"]
 }

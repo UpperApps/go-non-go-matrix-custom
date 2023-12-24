@@ -1,5 +1,6 @@
-// eslint-disable-next-line no-warning-comments
-// TODO: Created only for Jest configuration purposes. Remove it later.
+import User from './User';
+
+let user: User;
 export function add(x: number, y: number): number {
   return x + y;
 }

@@ -5,9 +5,7 @@
     "commonjs": true
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "parserOptions": {
     "project": "./tsconfig.json",
     "sourceType": "module"
@@ -24,11 +22,8 @@
     "no-console": 1,
     "prettier/prettier": 2,
     "no-process-env": "off",
-    "quotes": [
-      2,
-      "single",
-      "avoid-escape"
-    ]
+    "quotes": [2, "single", "avoid-escape"],
+    "@typescript-eslint/consistent-type-definitions": [2, "type"]
   },
   "settings": {
     "import/resolver": {

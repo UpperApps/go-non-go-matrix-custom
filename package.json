@@ -21,14 +21,15 @@
     "lint": "eslint . --ext .ts",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "build": "tsc",
-    "test": "jest",
+    "test": "jest --ecmaFeatures=modules --extensions=ts",
+    "test:watch": "jest --ecmaFeatures=modules --extensions=ts --watch",
     "doc:generate": "npx @redocly/cli bundle src/resources/docs/api/index.yaml --output src/resources/docs/api/api-spec.yaml --ext yaml --dereferenced",
     "lint-staged": "lint-staged --config lint-staged.cjs",
     "husky-install": "husky install"
   },
   "jest": {
     "testMatch": [
-      "**/?(*.)+(spec|test).[j]s?(x)"
+      "**/?(*.)+(spec|test).[t]s?(x)"
     ]
   },
   "dependencies": {
