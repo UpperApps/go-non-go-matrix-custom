@@ -1,4 +1,4 @@
-name: pre-commit
+name: pre_commit
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - 'main'
 
 jobs:
-  lint and test:
+  lint_and_test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
