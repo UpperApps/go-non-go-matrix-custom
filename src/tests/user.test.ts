@@ -1,4 +1,4 @@
-import { add, multiply } from '../services/UserService.js';
+import { add, multiply } from '../services/UserService';
 
 describe('Math functions', () => {
   it('should multiply 5 by 3', () => {

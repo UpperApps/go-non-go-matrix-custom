@@ -4,7 +4,7 @@ import logger from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 
-import router from './routes/index.js';
+import router from './routes/index';
 
 const app = express();
 

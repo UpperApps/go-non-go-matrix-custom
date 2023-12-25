@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "noImplicitAny": true,
-    "outDir": "./build",
     "noEmitOnError": true,
     "forceConsistentCasingInFileNames": true,
     "allowArbitraryExtensions": true,
     "strictNullChecks": true
   },
-  "include": [
-    "./src/**/*",
-    "./server.ts"
-  ]
+  "include": ["./src/**/*", "./server.ts"]
 }

@@ -16,8 +16,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "tsc-watch --onSuccess \"node build/server.js\"",
-    "dev": "npm run prettier-format && npm run lint && npm run build && npm run test && npm run doc:generate &&  npm start",
+    "start": "tsc-watch --onSuccess \"node dist/server.js\"",
+    "dev": "npm run prettier-format && npm run lint && npm run test && npm run build && npm run doc:generate &&  npm start",
     "lint": "eslint . --ext .ts",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "build": "tsc",
@@ -28,7 +28,7 @@
   },
   "jest": {
     "testMatch": [
-      "**/?(*.)+(spec|test).[j]s?(x)"
+      "**/?(*.)+(spec|test).[t]s?(x)"
     ]
   },
   "dependencies": {
