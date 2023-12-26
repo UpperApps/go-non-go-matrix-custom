@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "Node",
+    "lib": ["ESNext"],
+    "typeRoots": ["./node_modules/@types"],
     "esModuleInterop": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
@@ -9,8 +12,10 @@
     "noEmitOnError": true,
     "forceConsistentCasingInFileNames": true,
     "allowArbitraryExtensions": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "verbatimModuleSyntax": true,
+    "outDir": "./dist"
   },
-  "exclude": ["node_modules", "dist"],
-  "include": ["./src/**/*", "./babel.config.cts", "./jest.config.cts", "./lint-staged.cjs"]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
