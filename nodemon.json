@@ -1,0 +1,7 @@
+{
+  "watch": ["src"],
+  "ignore": ["src/**/*.test.ts", "node_modules"],
+  "ext": "ts,js,json",
+  "exec": "etsc --config=etsc.config.build.cjs && node ./dist/server.js",
+  "legacyWatch": true
+}
