@@ -7,7 +7,7 @@ import http from 'http';
 
 import Debug from 'debug';
 
-import app from './src/app';
+import app from './app';
 
 const serverDebug = Debug('go-non-go-matrix:server');
 

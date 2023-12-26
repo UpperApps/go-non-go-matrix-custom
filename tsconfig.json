@@ -9,7 +9,9 @@
     "noEmitOnError": true,
     "forceConsistentCasingInFileNames": true,
     "allowArbitraryExtensions": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "verbatimModuleSyntax": true,
+    "outDir": "./dist"
   },
-  "include": ["./src/**/*", "./server.ts"]
+  "include": ["./src/**/*", "./src/server.ts"]
 }
