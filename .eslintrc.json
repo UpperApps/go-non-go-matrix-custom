@@ -19,7 +19,7 @@
     "plugin:@shopify/typescript-type-checking"
   ],
   "rules": {
-    "no-console": 1,
+    "no-console": 0,
     "prettier/prettier": 2,
     "no-process-env": "off",
     "quotes": [2, "single", "avoid-escape"],

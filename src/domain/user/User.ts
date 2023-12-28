@@ -1,9 +1,9 @@
-type User = {
+export type User = {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt?: Date;
 };
-export default User;

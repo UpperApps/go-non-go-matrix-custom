@@ -1,4 +1,4 @@
-import User from './User';
+import type { User } from './User';
 
 let user: User;
 export function add(x: number, y: number): number {
