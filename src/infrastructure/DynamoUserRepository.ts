@@ -1,100 +1,123 @@
-/* eslint-disable id-length */
+/* eslint-disable @typescript-eslint/naming-convention */
 
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocument, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 
 import type { UserRepository } from '../domain/user/UserRepository';
 import type { User } from '../domain/user/User';
 
-// TASK Replace it by the real configuration
-// Require AWS SDK and instantiate DocumentClient
-const dynamoDB = new DynamoDB({
-  region: 'us-east-1',
-  endpoint: 'http://localhost:4566',
-  credentials: {
-    accessKeyId: 'test',
-    secretAccessKey: 'test'
-  }
-});
+import type { DynamoDBConfigParams } from './DynamoDBConfigParams';
 
 const USER_PK = 'USER';
+const TABLE_NAME = 'go-non-go-matrix';
 
-const DynamoUserRepository: UserRepository = {
-  // TASK #1: Implement the methods below
-  save: async (user) => {
-    console.log('Saving user', user);
+class DynamoUserRepository implements UserRepository {
+  dynamoDB: DynamoDB;
+  dynamoDBDocument: DynamoDBDocument;
 
-    const params = {
-      TableName: 'go-non-go-matrix',
-      Item: {
-        pk: { S: USER_PK },
-        sk: { S: user.id },
-        firstName: { S: user.firstName },
-        lastName: { S: user.lastName },
-        email: { S: user.email },
-        password: { S: user.password },
-        createdAt: { S: user.createdAt.toTimeString() }
-      }
-    };
+  constructor(dynamoDBConfigParams: DynamoDBConfigParams) {
+    this.dynamoDB = new DynamoDB(dynamoDBConfigParams);
+    this.dynamoDBDocument = DynamoDBDocument.from(this.dynamoDB);
+  }
 
-    await dynamoDB.putItem(params).catch((err) => console.log(`Error saving user: ${err}`));
-  },
-
-  // TASK #2: Implement the methods below
-  update: async (user) => {
-    console.log('Updating user', user);
-    await Promise.resolve();
-  },
-
-  // TASK #3: Implement the methods below
-  delete: async (id) => {
-    console.log('Deleting user', id);
-    await Promise.resolve();
-  },
-
-  // TASK #4: Implement the methods below
-  findById: async (id) => {
-    console.log('Finding user by Id', id);
-
-    const params = {
-      TableName: 'go-non-go-matrix',
-      Key: {
-        pk: { S: USER_PK },
-        sk: { S: id }
-      }
-    };
-
-    const data = await dynamoDB
-      .getItem(params)
-      .then((data) => data.Item)
-      .catch((err) => err);
-
-    console.log('Data found');
-    console.log(data);
-
-    let user: User | null = null;
-
-    if (data.Item) {
-      user = {
-        id: data.Item.sk.S || '',
-        firstName: data.Item.firstName.S || '',
-        lastName: data.Item.lastName.S || '',
-        email: data.Item.email.S || '',
-        password: data.Item.password.S || '',
-        createdAt: new Date(data.Item.createdAt.S || '')
+  async delete(id: string): Promise<void> {
+    try {
+      const params = {
+        TableName: TABLE_NAME,
+        Key: {
+          pk: USER_PK,
+          sk: id
+        }
       };
+
+      await this.dynamoDBDocument.delete(params);
+    } catch (error) {
+      console.error(`Error saving user: ${error}`);
     }
+  }
 
-    console.log('User found');
-    console.log(user);
-
-    return user;
-  },
-
-  // TASK #5: Implement the methods below
-  findAll: () => {
-    console.log('Finding all users');
+  async findAll(): Promise<User[]> {
     return Promise.resolve([]);
   }
-};
+
+  async findById(id: string): Promise<User | undefined> {
+    let user: User | undefined;
+
+    try {
+      const params = {
+        TableName: TABLE_NAME,
+        Key: {
+          pk: USER_PK,
+          sk: id
+        }
+      };
+
+      const data = await this.dynamoDBDocument.get(params);
+      const item = data.Item;
+
+      if (item !== undefined) {
+        user = {
+          id: item.sk,
+          firstName: item.firstName,
+          lastName: item.lastName,
+          email: item.email,
+          password: item.password,
+          createdAt: new Date(item.createdAt)
+        };
+      }
+    } catch (error) {
+      console.error(`Error finding user: ${error}`);
+    }
+
+    return user;
+  }
+
+  async save(user: User): Promise<void> {
+    try {
+      const params = {
+        TableName: TABLE_NAME,
+        Item: {
+          pk: USER_PK,
+          sk: user.id,
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          password: user.password,
+          createdAt: user.createdAt.toISOString()
+        }
+      };
+
+      await this.dynamoDBDocument.put(params);
+    } catch (error) {
+      console.error(`Error saving user: ${error}`);
+    }
+  }
+
+  async update(id: string, user: User): Promise<void> {
+    try {
+      const params = new UpdateCommand({
+        TableName: TABLE_NAME,
+        Key: {
+          pk: USER_PK,
+          sk: id
+        },
+        UpdateExpression: 'SET firstName = :firstName, lastName = :lastName, email = :email, password = :password, updatedAt = :updatedAt',
+        ExpressionAttributeValues: {
+          ':firstName': user.firstName,
+          ':lastName': user.lastName,
+          ':email': user.email,
+          ':password': user.password,
+          ':updatedAt': new Date().toISOString()
+        },
+        ReturnValues: 'ALL_NEW'
+      });
+
+      await this.dynamoDBDocument.send(params);
+    } catch (error) {
+      console.error(`Error saving user: ${error}`);
+    }
+  }
+}
 
 export default DynamoUserRepository;

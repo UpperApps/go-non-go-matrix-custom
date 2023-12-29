@@ -1,95 +1,82 @@
 import { v4 as uuidv4 } from 'uuid';
+import { fakerEN as faker } from '@faker-js/faker';
 
 import type { User } from '../domain/user/User';
-import dynamoUserRepository from '../infrastructure/DynamoUserRepository';
+import DynamoUserRepository from '../infrastructure/DynamoUserRepository';
+
+const dynamoDBConfigParams = {
+  region: 'us-east-1',
+  endpoint: 'http://localhost:4566',
+  credentials: {
+    accessKeyId: 'test',
+    secretAccessKey: 'test'
+  }
+};
+
+const dynamoUserRepository = new DynamoUserRepository(dynamoDBConfigParams);
+
+let user: User;
+
+beforeEach(() => {
+  user = {
+    id: uuidv4(),
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    createdAt: new Date()
+  };
+});
 
 describe('Test User DyanamoDB repository', () => {
-  it('should save a user and find it by id', () => {
+  it('should save a user and find it by id', async () => {
     // TASK #1: Implement the tests below
     const user: User = {
       id: uuidv4(),
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'test@gmail.com',
-      password: '1234',
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
       createdAt: new Date()
     };
 
-    dynamoUserRepository.save(user);
+    await dynamoUserRepository.save(user);
 
-    const savedUser = dynamoUserRepository.findById(user.id);
+    const savedUser = await dynamoUserRepository.findById(user.id);
 
-    expect(savedUser.then((value) => value?.id)).toEqual(user.id);
+    expect(savedUser).toEqual(user);
   });
 
-  // it('should update a user', () => {
-  //   // TASK #3: Implement the tests below
-  //   const user: User = {
-  //     id: uuidv4(),
-  //     firstName: 'John',
-  //     lastName: 'Doe',
-  //     email: 'test@gmail.com',
-  //     password: '1234',
-  //     createdAt: new Date()
-  //   };
-  //
-  //   dynamoUserRepository.save(user);
-  //
-  //   const savedUser = dynamoUserRepository
-  //     .findById(user.id)
-  //     .then((data) => {
-  //       const user = {
-  //         id: data?.id || '',
-  //         firstName: data?.firstName || '',
-  //         lastName: data?.lastName || '',
-  //         email: data?.email || '',
-  //         password: data?.password || '',
-  //         createdAt: data?.createdAt || new Date()
-  //       };
-  //       return user;
-  //     })
-  //     .catch((err) => err);
-  //
-  //   const userToUpdate: User = {
-  //     id: uuidv4(),
-  //     firstName: savedUser.firstName || '',
-  //     lastName: 'Travolta',
-  //     email: savedUser.email || '',
-  //     password: savedUser.password || '',
-  //     createdAt: savedUser.createdAt,
-  //     updatedAt: new Date()
-  //   };
-  //
-  //   dynamoUserRepository.update(userToUpdate);
-  //
-  //   const updatedUser = dynamoUserRepository.findById(user.id);
-  //
-  //   expect(updatedUser.lastName).toEqual('Travolta');
-  //   expect(updatedUser.updatedAt).not.toBeNull();
-  // });
+  it('should update a user', async () => {
+    await dynamoUserRepository.save(user);
 
-  it('should delete a user', () => {
-    // TASK #4: Implement the tests below
-    const user: User = {
-      id: uuidv4(),
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'test@gmail.com',
-      password: '1234',
-      createdAt: new Date()
+    const savedUser = (await dynamoUserRepository.findById(user.id)) as User;
+
+    const userToUpdate: User = {
+      ...savedUser,
+      lastName: 'Travolta'
     };
 
-    dynamoUserRepository.save(user);
+    await dynamoUserRepository.update(savedUser.id, userToUpdate);
 
-    const savedUser = dynamoUserRepository.findById(user.id);
+    const updatedUser = await dynamoUserRepository.findById(savedUser.id);
 
-    expect(savedUser).not.toBeNull();
+    expect(updatedUser?.lastName).toEqual('Travolta');
+    expect(updatedUser?.updatedAt).not.toBeNull();
+  });
 
-    dynamoUserRepository.delete(user.id);
+  it('should delete a user', async () => {
+    await dynamoUserRepository.save(user);
 
-    const deletedUser = dynamoUserRepository.findById(user.id);
+    const savedUser = await dynamoUserRepository.findById(user.id);
 
-    expect(deletedUser).toBeNull();
+    expect(savedUser).not.toBeUndefined();
+
+    await dynamoUserRepository.delete(user.id);
+
+    const deletedUser = await dynamoUserRepository.findById(user.id);
+
+    expect(deletedUser).toBeUndefined();
   });
 
   it('should find all users', () => {
