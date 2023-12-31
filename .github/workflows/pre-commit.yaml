@@ -38,7 +38,10 @@ jobs:
         run: npm run test
 
       - name: Stop docker compose
-        run: docker-compose down
+        run: |
+          cd localstack
+          chmod +x stop.sh
+          sh stop.sh
         shell: bash
 
   build:
