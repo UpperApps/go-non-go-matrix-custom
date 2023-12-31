@@ -28,8 +28,10 @@ jobs:
 
       - name: Start docker compose
         run: |
-          chmod +x ./localstack/init.sh
-          sh ./localstack/init.sh
+          pwd
+          cd localstack
+          chmod +x init.sh
+          sh init.sh
         shell: bash
 
       - name: Run Tests
