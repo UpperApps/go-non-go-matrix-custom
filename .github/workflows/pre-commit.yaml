@@ -26,8 +26,14 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+      - name: Start docker compose
+        run: sh ./localstack/init.sh
+
       - name: Run Tests
         run: npm run test
+
+      - name: Stop docker compose
+        run: docker-compose down
 
   build:
     needs: lint_and_test
