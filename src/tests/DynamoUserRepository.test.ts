@@ -28,9 +28,16 @@ beforeEach(() => {
   };
 });
 
+afterEach(async () => {
+  const users = await dynamoUserRepository.findAll();
+
+  for (const user of users) {
+    await dynamoUserRepository.delete(user.id);
+  }
+});
+
 describe('Test User DyanamoDB repository', () => {
   it('should save a user and find it by id', async () => {
-    // TASK #1: Implement the tests below
     const user: User = {
       id: uuidv4(),
       firstName: faker.person.firstName(),
@@ -79,31 +86,21 @@ describe('Test User DyanamoDB repository', () => {
     expect(deletedUser).toBeUndefined();
   });
 
-  it('should find all users', () => {
-    // TASK #5: Implement the tests below
-    const user1: User = {
+  it('should find all users', async () => {
+    const anotherUser: User = {
       id: uuidv4(),
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'test@gmail.com',
-      password: '1234',
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
       createdAt: new Date()
     };
 
-    const user2: User = {
-      id: uuidv4(),
-      firstName: 'John',
-      lastName: 'Travolta',
-      email: 'test@gmail.com',
-      password: '4567',
-      createdAt: new Date()
-    };
+    await dynamoUserRepository.save(user);
+    await dynamoUserRepository.save(anotherUser);
 
-    dynamoUserRepository.save(user1);
-    dynamoUserRepository.save(user2);
+    const users = await dynamoUserRepository.findAll();
 
-    const users = dynamoUserRepository.findAll();
-
-    expect(users.then((value) => value.length)).toEqual(2);
+    expect(users.length).toEqual(2);
   });
 });

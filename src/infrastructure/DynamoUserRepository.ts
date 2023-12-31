@@ -37,7 +37,38 @@ class DynamoUserRepository implements UserRepository {
   }
 
   async findAll(): Promise<User[]> {
-    return Promise.resolve([]);
+    let users: User[] = [];
+
+    try {
+      const params = {
+        TableName: TABLE_NAME,
+        KeyConditionExpression: 'pk = :pk',
+        ExpressionAttributeValues: {
+          ':pk': USER_PK
+        },
+        ConsistentRead: true
+      };
+
+      const data = await this.dynamoDBDocument.query(params);
+      const items = data.Items;
+
+      if (items !== undefined && items.length > 0) {
+        users = items.map((item) => {
+          return {
+            id: item.sk,
+            firstName: item.firstName,
+            lastName: item.lastName,
+            email: item.email,
+            password: item.password,
+            createdAt: new Date(item.createdAt)
+          };
+        });
+      }
+    } catch (error) {
+      console.error(`Error finding users: ${error}`);
+    }
+
+    return users;
   }
 
   async findById(id: string): Promise<User | undefined> {
