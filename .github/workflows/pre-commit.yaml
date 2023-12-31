@@ -39,6 +39,7 @@ jobs:
 
       - name: Stop docker compose
         run: docker-compose down
+        shell: bash
 
   build:
     needs: lint_and_test
