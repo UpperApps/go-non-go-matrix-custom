@@ -27,7 +27,7 @@ jobs:
         run: npm run lint
 
       - name: Start docker compose
-        run: sh ./localstack/init.sh
+        run: sh localstack/init.sh
 
       - name: Run Tests
         run: npm run test
