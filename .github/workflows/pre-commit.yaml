@@ -28,7 +28,7 @@ jobs:
 
       - name: Start docker compose
         run: |
-          pwd
+          pip install awscli-local
           cd localstack
           chmod +x init.sh
           sh init.sh
