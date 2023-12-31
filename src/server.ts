@@ -27,7 +27,6 @@ const server = http.createServer(app);
  */
 
 server.listen(port, () => {
-  // eslint-disable-next-line no-console
   console.log(`Server listening on http://localhost:${port}`);
 });
 server.on('error', onError);
@@ -68,12 +67,10 @@ function onError({ error }: { error: NodeJS.ErrnoException }) {
   // handle specific listen errors with friendly messages
   switch (code) {
     case 'EACCES':
-      // eslint-disable-next-line no-console
       console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      // eslint-disable-next-line no-console
       console.error(`${bind} is already in use`);
       process.exit(1);
       break;
